@@ -36,7 +36,7 @@ def simulate(turns, is_stop, is_show_graph):
                 if rabbit.age >= rabbit.reproduction_age and rabbit.food_capacity > rabbit.min_food_reproduct and np.random.rand() > rabbit.prob_reproduction:
                     rabbits.append(Rabbit())
 
-                if rabbit.food_capacity <=0:
+                if rabbit.food_capacity <= 0:
                     rabbit.die_cooldown -= 1
                     if rabbit.die_cooldown == 0:
                         rabbits.remove(rabbit)
@@ -47,11 +47,11 @@ def simulate(turns, is_stop, is_show_graph):
                     rabbits.remove(rabbit)
 
         # Wolves section
-        for wolf in wolves:
+        for wolf in wolves[:]:
             if rabbits:
                 prey = np.random.choice(rabbits)
                 
-                if np.random.rand() > 0.4:   # if random value > 0.5 = the rabbit was eaten by a wolf
+                if np.random.rand() > 0.3:   # if random value > 0.5 = the rabbit was eaten by a wolf
                     wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
                     rabbits.remove(prey)
             
