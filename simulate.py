@@ -40,9 +40,9 @@ def simulate(turns, is_stop):
         for wolf in wolves:
             if rabbits:
                 prey = np.random.choice(rabbits)
-                wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
                 
                 if np.random.rand() > 0.5:   # if random value > 0.5 = the rabbit was eaten by a wolf
+                    wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
                     rabbits.remove(prey)
             
             wolf.food_capacity -= wolf.metabolism
