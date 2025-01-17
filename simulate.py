@@ -1,9 +1,19 @@
 import argparse
 import numpy as np 
+import matplotlib.pyplot as plt
 from animal import Rabbit, Wolf, Grass
 from state import State
 
-def simulate(turns, is_stop):
+def make_graph(grass, rabbits, wolves):
+    plt.plot(grass, color="g", label="Grass")
+    plt.plot(rabbits, color="b", label="Rabbits")
+    plt.plot(wolves, color="r", label="Wolves")
+    plt.legend()
+    plt.show()
+
+def simulate(turns, is_stop, is_show_graph):
+    n_grass, n_rabbits, n_wolves = [], [], []
+
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
     wolves = [Wolf() for _ in range(state_info.n_wolf)]  
     grass_blocks = state_info.n_grass
@@ -41,7 +51,7 @@ def simulate(turns, is_stop):
             if rabbits:
                 prey = np.random.choice(rabbits)
                 
-                if np.random.rand() > 0.5:   # if random value > 0.5 = the rabbit was eaten by a wolf
+                if np.random.rand() > 0.4:   # if random value > 0.5 = the rabbit was eaten by a wolf
                     wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
                     rabbits.remove(prey)
             
@@ -63,9 +73,17 @@ def simulate(turns, is_stop):
 
         print(f"Grass: {grass_blocks}, Rabbits: {len(rabbits)}, Wolves: {len(wolves)}")
         
+        n_grass.append(grass_blocks)
+        n_rabbits.append(len(rabbits))
+        n_wolves.append(len(wolves))
+        
+
         if is_stop and not rabbits and not wolves:
             print("Simulation ended: All animals have died.")
             break
+    if not is_show_graph:
+        make_graph(n_grass, n_rabbits, n_wolves)
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -73,8 +91,10 @@ if __name__ == "__main__":
     parser.add_argument("--n_grass", type=int, default=400, help="number of grass box")
     parser.add_argument("--n_rabbit", type=int, default=20, help="number of rabbit")
     parser.add_argument("--n_wolf", type=int, default=2, help="number of wolf")
+    parser.add_argument("--no_show_graph", action="store_true", help="if you don't want to show graph")
     parser.add_argument("--stop", action="store_true", help="Stop the simulation when all animals die")
     opt = parser.parse_args()
 
     state_info = State(opt.n_grass, opt.n_rabbit, opt.n_wolf)
-    simulate(opt.n_turns, opt.stop)
+    simulate(opt.n_turns, opt.stop, opt.no_show_graph)
+    
