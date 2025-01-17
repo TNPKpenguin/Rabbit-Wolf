@@ -5,7 +5,7 @@ from state import State
 
 def simulate(turns, is_stop):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
-    wolves = [Wolf() for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
+    wolves = [Wolf() for _ in range(state_info.n_wolf)]  
     grass_blocks = state_info.n_grass
     grass = Grass()
 
@@ -35,6 +35,7 @@ def simulate(turns, is_stop):
 
                 if rabbit.age >= rabbit.max_age:
                     rabbits.remove(rabbit)
+
         # Wolves section
         for wolf in wolves:
             if rabbits:
