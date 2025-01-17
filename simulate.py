@@ -6,7 +6,7 @@ state_info = State()
 
 def simulate(turns):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
-    wolves = [Wolf() for _ in range(state_info.n_wolf)]
+    wolves = [Wolf(metabolism=5) for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
     grass_blocks = state_info.n_grass
     grass = Glass()
 
@@ -23,7 +23,7 @@ def simulate(turns):
                 rabbit.food_capacity -= rabbit.metabolism
                 rabbit.age += 1
 
-                if rabbit.age > rabbit.reproduction_age and rabbit.food_capacity > rabbit.min_food_reproduct and np.random.rand() < rabbit.prob_reproduct:
+                if rabbit.age % rabbit.reproduction_age == 0 and rabbit.food_capacity > rabbit.min_food_reproduct and np.random.rand() > rabbit.prob_repoduction:
                     rabbits.append(Rabbit())
         
         for wolf in wolves:
@@ -48,4 +48,4 @@ def simulate(turns):
             print("Simulation ended: All animals have died.")
             break
 
-simulate(200)
+simulate(100)
