@@ -5,7 +5,7 @@ from state import State
 
 def simulate(turns):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
-    wolves = [Wolf(metabolism=5) for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
+    wolves = [Wolf(metabolism=20) for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
     grass_blocks = state_info.n_grass
     grass = Glass()
 
