@@ -2,5 +2,5 @@
 
 Copy this command for run simulate.py
 ```python
-python simulate.py --n_turns 100 --n_grass 200 --n_rabbit 10 --n_wolf 1
+python simulate.py --n_turns 200 --n_grass 400 --n_rabbit 20 --n_wolf 2 --stop
 ```
