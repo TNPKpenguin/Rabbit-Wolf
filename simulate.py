@@ -3,7 +3,7 @@ import numpy as np
 from animal import Rabbit, Wolf, Grass
 from state import State
 
-def simulate(turns):
+def simulate(turns, is_stop):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
     wolves = [Wolf() for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
     grass_blocks = state_info.n_grass
@@ -58,9 +58,9 @@ def simulate(turns):
                 wolves.append(Wolf())
         print(f"Grass: {grass_blocks}, Rabbits: {len(rabbits)}, Wolves: {len(wolves)}")
         
-        # if not rabbits and not wolves:
-        #     print("Simulation ended: All animals have died.")
-        #     break
+        if is_stop and not rabbits and not wolves:
+            print("Simulation ended: All animals have died.")
+            break
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -68,7 +68,8 @@ if __name__ == "__main__":
     parser.add_argument("--n_grass", type=int, default=400, help="number of grass box")
     parser.add_argument("--n_rabbit", type=int, default=20, help="number of rabbit")
     parser.add_argument("--n_wolf", type=int, default=2, help="number of wolf")
+    parser.add_argument("--stop", action="store_true", help="Stop the simulation when all animals die")
     opt = parser.parse_args()
 
     state_info = State(opt.n_grass, opt.n_rabbit, opt.n_wolf)
-    simulate(opt.n_turns)
+    simulate(opt.n_turns, opt.stop)
