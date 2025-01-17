@@ -10,7 +10,7 @@ def simulate(turns):
     grass = Grass()
 
     for turn in range(turns):
-        print(f"Step {turn+1}/{turns}")
+        print(f"Step {turn+1}/{turns}", end="   ")
 
         grass_blocks = grass_blocks + grass.growth_rate
 
@@ -58,9 +58,9 @@ def simulate(turns):
                 wolves.append(Wolf())
         print(f"Grass: {grass_blocks}, Rabbits: {len(rabbits)}, Wolves: {len(wolves)}")
         
-        if not rabbits and not wolves:
-            print("Simulation ended: All animals have died.")
-            break
+        # if not rabbits and not wolves:
+        #     print("Simulation ended: All animals have died.")
+        #     break
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -69,6 +69,6 @@ if __name__ == "__main__":
     parser.add_argument("--n_rabbit", type=int, default=20, help="number of rabbit")
     parser.add_argument("--n_wolf", type=int, default=2, help="number of wolf")
     opt = parser.parse_args()
-    print("n_grass", opt.n_grass)
+
     state_info = State(opt.n_grass, opt.n_rabbit, opt.n_wolf)
     simulate(opt.n_turns)
