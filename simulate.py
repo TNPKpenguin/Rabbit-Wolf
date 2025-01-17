@@ -1,20 +1,20 @@
 import argparse
 import numpy as np 
-from animal import Rabbit, Wolf, Glass
+from animal import Rabbit, Wolf, Grass
 from state import State
 
 def simulate(turns):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
-    wolves = [Wolf(metabolism=2) for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
+    wolves = [Wolf() for _ in range(state_info.n_wolf)]  # กูลองเพิ่ม metabolism rate เป็น 5, 10, 20 ดู เพราะว่าถ้าเป็น default หมามันจะตายยากมาก 
     grass_blocks = state_info.n_grass
-    grass = Glass()
+    grass = Grass()
 
     for turn in range(turns):
         print(f"Step {turn+1}/{turns}")
 
         grass_blocks = grass_blocks + grass.growth_rate
 
-        for rabbit in rabbits[:]:
+        for rabbit in rabbits:
             if grass_blocks > 0:
                 rabbit.food_capacity = min(rabbit.food_capacity + grass.grass_value, rabbit.max_age)
                 grass_blocks -= 1
@@ -35,7 +35,7 @@ def simulate(turns):
                 if rabbit.age >= rabbit.max_age:
                     rabbits.remove(rabbit)
 
-        for wolf in wolves[:]:
+        for wolf in wolves:
             if rabbits:
                 prey = np.random.choice(rabbits)
                 wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
@@ -54,7 +54,7 @@ def simulate(turns):
             if wolf.age >= wolf.max_age:
                 wolves.remove(wolf)
 
-            if wolf.age >= wolf.reproduction_age and wolf.food_capacity > wolf.min_food_reproduct and np.random.rand() > wolf.prob_repoduction:
+            if wolf.age >= wolf.reproduction_age and wolf.food_capacity > wolf.min_food_reproduct and np.random.rand() > wolf.prob_reproduction:
                 wolves.append(Wolf())
         print(f"Grass: {grass_blocks}, Rabbits: {len(rabbits)}, Wolves: {len(wolves)}")
         
