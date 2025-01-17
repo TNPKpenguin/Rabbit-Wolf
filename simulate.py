@@ -14,6 +14,7 @@ def simulate(turns, is_stop):
 
         grass_blocks = min(grass_blocks + grass.growth_rate, state_info.n_grass)
 
+        # Rabbits section
         for rabbit in rabbits:
             if grass_blocks > 0:
                 rabbit.food_capacity = min(rabbit.food_capacity + grass.grass_value, rabbit.max_food_capacity)
@@ -34,7 +35,7 @@ def simulate(turns, is_stop):
 
                 if rabbit.age >= rabbit.max_age:
                     rabbits.remove(rabbit)
-
+        # Wolves section
         for wolf in wolves:
             if rabbits:
                 prey = np.random.choice(rabbits)
