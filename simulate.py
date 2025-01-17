@@ -12,17 +12,17 @@ def simulate(turns, is_stop):
     for turn in range(turns):
         print(f"Step {turn+1}/{turns}", end="   ")
 
-        grass_blocks = grass_blocks + grass.growth_rate
+        grass_blocks = min(grass_blocks + grass.growth_rate, state_info.n_grass)
 
         for rabbit in rabbits:
             if grass_blocks > 0:
-                rabbit.food_capacity = min(rabbit.food_capacity + grass.grass_value, rabbit.max_age)
+                rabbit.food_capacity = min(rabbit.food_capacity + grass.grass_value, rabbit.max_food_capacity)
                 grass_blocks -= 1
 
                 rabbit.food_capacity -= rabbit.metabolism
                 rabbit.age += 1
 
-                if rabbit.age >= rabbit.reproduction_age and rabbit.food_capacity > rabbit.min_food_reproduct and np.random.rand() > rabbit.prob_repoduction:
+                if rabbit.age >= rabbit.reproduction_age and rabbit.food_capacity > rabbit.min_food_reproduct and np.random.rand() > rabbit.prob_reproduction:
                     rabbits.append(Rabbit())
 
                 if rabbit.food_capacity <=0:
@@ -39,7 +39,9 @@ def simulate(turns, is_stop):
             if rabbits:
                 prey = np.random.choice(rabbits)
                 wolf.food_capacity = min(wolf.food_capacity + prey.rabbit_value, wolf.max_food_capacity)
-                rabbits.remove(prey)
+                
+                if np.random.rand() > 0.5:   # if random value > 0.5 = the rabbit was eaten by a wolf
+                    rabbits.remove(prey)
             
             wolf.food_capacity -= wolf.metabolism
             wolf.age += 1
@@ -56,6 +58,7 @@ def simulate(turns, is_stop):
 
             if wolf.age >= wolf.reproduction_age and wolf.food_capacity > wolf.min_food_reproduct and np.random.rand() > wolf.prob_reproduction:
                 wolves.append(Wolf())
+
         print(f"Grass: {grass_blocks}, Rabbits: {len(rabbits)}, Wolves: {len(wolves)}")
         
         if is_stop and not rabbits and not wolves:
