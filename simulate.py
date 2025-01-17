@@ -1,8 +1,7 @@
+import argparse
 import numpy as np 
 from animal import Rabbit, Wolf, Glass
 from state import State
-
-state_info = State()
 
 def simulate(turns):
     rabbits = [Rabbit() for _ in range(state_info.n_rabbit)]
@@ -48,4 +47,13 @@ def simulate(turns):
             print("Simulation ended: All animals have died.")
             break
 
-simulate(100)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--n_turns", type=int, default=50, help="number of turn")
+    parser.add_argument("--n_grass", type=int, default=400, help="number of grass box")
+    parser.add_argument("--n_rabbit", type=int, default=20, help="number of rabbit")
+    parser.add_argument("--n_wolf", type=int, default=2, help="number of wolf")
+    opt = parser.parse_args()
+    print("n_grass", opt.n_grass)
+    state_info = State(opt.n_grass, opt.n_rabbit, opt.n_wolf)
+    simulate(opt.n_turns)
