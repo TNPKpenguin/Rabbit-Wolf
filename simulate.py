@@ -22,11 +22,14 @@ def simulate(turns, is_stop, is_show_graph):
     for turn in range(turns):
         print(f"Step {turn+1}/{turns}", end="   ")
 
+        #cal grass_blocks = if turns%5==0 then grass_block growth
+        #every turn grass_block growth 5 field but grass_block can't more n_grass
         grass_blocks = min(grass_blocks + grass.growth_rate, state_info.n_grass)
 
         # Rabbits section
         for rabbit in rabbits:
             if grass_blocks > 0:
+                #if food_capacity is 40 but grass_value get 10 but fact not gift point food to 45
                 rabbit.food_capacity = min(rabbit.food_capacity + grass.grass_value, rabbit.max_food_capacity)
                 grass_blocks -= 1
 
@@ -47,6 +50,7 @@ def simulate(turns, is_stop, is_show_graph):
                     rabbits.remove(rabbit)
 
         # Wolves section
+        #what's the [:]
         for wolf in wolves[:]:
             if rabbits:
                 prey = np.random.choice(rabbits)
@@ -78,7 +82,8 @@ def simulate(turns, is_stop, is_show_graph):
         n_wolves.append(len(wolves))
         
 
-        if is_stop and not rabbits and not wolves:
+        #if is_stop and not rabbits and not wolves:
+        if not rabbits and not wolves:
             print("Simulation ended: All animals have died.")
             break
     if not is_show_graph:
@@ -87,7 +92,7 @@ def simulate(turns, is_stop, is_show_graph):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n_turns", type=int, default=50, help="number of turn")
+    parser.add_argument("--n_turns", type=int, default=60, help="number of turn")
     parser.add_argument("--n_grass", type=int, default=400, help="number of grass box")
     parser.add_argument("--n_rabbit", type=int, default=20, help="number of rabbit")
     parser.add_argument("--n_wolf", type=int, default=2, help="number of wolf")
